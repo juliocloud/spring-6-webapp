@@ -26,14 +26,6 @@ public class BootstrapData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("\nCommand Line runner\n");
 
-        Author eric = new Author();
-        eric.setFirstName("Eric");
-        eric.setLastName("Evans");
-
-        Book ddd = new Book();
-        ddd.setTitle("Doamin Driven Design");
-        ddd.setIsbn("123456");
-
         Publisher oreiley = new Publisher();
         oreiley.setPublisherName("O'reiley");
         oreiley.setAddress("Stony Circle, Suite 195");
@@ -41,27 +33,35 @@ public class BootstrapData implements CommandLineRunner {
         oreiley.setZip("95401");
         oreiley.setState("CA");
 
-        Publisher oreileySaved = publisherRepository.save(oreiley);
-        Author ericSaved = authorRepository.save(eric);
-        Book dddSaved = bookRepository.save(ddd);
-
-        dddSaved.setPublisher(oreileySaved);
+        Author eric = new Author();
+        eric.setFirstName("Eric");
+        eric.setLastName("Evans");
 
         Author rod = new Author();
         rod.setFirstName("Rod");
         rod.setLastName("Johnson");
 
+        Book ddd = new Book();
+        ddd.setTitle("Doamin Driven Design");
+        ddd.setIsbn("123456");
+
         Book noEJB = new Book();
         noEJB.setTitle("J2EE Development without EJB");
         noEJB.setIsbn("75864");
 
+        Publisher oreileySaved = publisherRepository.save(oreiley);
+        Author ericSaved = authorRepository.save(eric);
+        Book dddSaved = bookRepository.save(ddd);
         Author rodSaved = authorRepository.save(rod);
         Book noEJBSaved = bookRepository.save(noEJB);
 
+        dddSaved.setPublisher(oreileySaved);
         noEJBSaved.setPublisher(oreileySaved);
 
         ericSaved.getBooks().add(dddSaved);
         rodSaved.getBooks().add(noEJBSaved);
+        dddSaved.getAuthors().add(ericSaved);
+        noEJBSaved.getAuthors().add(rodSaved);
 
         authorRepository.save(ericSaved);
         authorRepository.save(rodSaved);
